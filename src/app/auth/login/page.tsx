@@ -1,23 +1,36 @@
 import { supabase } from '@/lib/supabase'
-import MedicineList from '@/components/MedicineList'
-import AddMedicine from '@/components/AddMedicine'
 import { redirect } from 'next/navigation'
 
-export default async function Home() {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+export default function LoginPage() {
+  async function handleLogin(formData: FormData) {
+    'use server'
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
-  const { data: medicines } = await supabase
-    .from('medicines')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('name', { ascending: true })
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+
+    if (!error) redirect('/')
+  }
 
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Your Medicines</h1>
-      <AddMedicine />
-      <MedicineList medicines={medicines || []} />
-    </main>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <form action={handleLogin} className="space-y-4 w-full max-w-md p-8 bg-white rounded-lg shadow">
+        <h1 className="text-2xl font-bold text-center">Medicine Tracker Login</h1>
+        <div>
+          <label className="block mb-1">Email</label>
+          <input name="email" type="email" required className="w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label className="block mb-1">Password</label>
+          <input name="password" type="password" required className="w-full p-2 border rounded" />
+        </div>
+        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          Login
+        </button>
+      </form>
+    </div>
   )
 }
