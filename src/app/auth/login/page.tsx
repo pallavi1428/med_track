@@ -18,15 +18,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <form action={handleLogin} className="space-y-4 w-full max-w-md p-8 bg-white rounded-lg shadow">
-        <h1 className="text-2xl font-bold text-center">Medicine Tracker Login</h1>
-        <div>
-          <label className="block mb-1">Email</label>
-          <input name="email" type="email" required className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block mb-1">Password</label>
-          <input name="password" type="password" required className="w-full p-2 border rounded" />
-        </div>
+        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <input name="email" type="email" placeholder="Email" required className="w-full p-2 border rounded" />
+        <input name="password" type="password" placeholder="Password" required className="w-full p-2 border rounded" />
         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
           Login
         </button>

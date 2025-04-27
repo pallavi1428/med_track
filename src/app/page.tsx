@@ -5,7 +5,7 @@ import AddMedicine from '@/components/medicines/AddMedicine'
 
 export default async function Home() {
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  if (!user) redirect('/auth/login')
 
   const { data: medicines } = await supabase
     .from('medicines')
@@ -16,7 +16,7 @@ export default async function Home() {
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Your Medicines</h1>
-      <AddMedicine />
+      <AddMedicine userId={user.id} />
       <MedicineList medicines={medicines || []} />
     </main>
   )
